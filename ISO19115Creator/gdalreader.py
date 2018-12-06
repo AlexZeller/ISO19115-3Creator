@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 import ogr
 import gdal
@@ -68,7 +70,7 @@ class GdalData:
                 raise
             self.driver = 'ESRI Shapefile'
             self.layer = self.data.GetLayer()
-            self.resolution = 'none'
+            self.resolution = None
             #In case no srs is defined fill all values with 'undefined'
             try:
                 self.spatialRef = self.layer.GetSpatialRef()

@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Nov 22 15:16:07 2018
-
-@author: s6alzell
-"""
 
 import logging
 import os
@@ -53,8 +48,9 @@ class Crawler:
         self.resourceScope = defaultValues[1]
         self.roleCode = defaultValues[2]
         self.Organisation = defaultValues[3]
-        self.ProgressCode = defaultValues[4]
-        self.ClassificationCode = defaultValues[5]
+        self.Abstract = defaultValues[4]
+        self.ProgressCode = defaultValues[5]
+        self.ClassificationCode = defaultValues[6]
         
         log.info('Crawler successfully initialized. root dir: %s', rootDir)
         
@@ -114,11 +110,18 @@ class Crawler:
                     writer.referenceSystemInfo(reader.EPSG,'geodeticGeographic2D')
                     BBOX = reader.BBOX
                     Keywords = finalKeywords
+                    if len(Keywords) >= 3:
+                        title = Keywords[0]+'_'+Keywords[1]+'_'+Keywords[2]
+                    elif len(Keywords) == 2:
+                        title = Keywords[0]+'_'+Keywords[1]
+                    elif len(Keywords) == 1:
+                        title = Keywords[0]
+                    elif len(Keywords) == 0:
+                        title = 'undefined'
                     timePeriod = [filedate, filedate]
-                    AssociatedResource = ['title', 'UUID']
-                    writer.identificationInfo('test','Abstract', self.ProgressCode, reader.resolution, BBOX, timePeriod, reader.driver, Keywords, self.ClassificationCode, 'unclassified', AssociatedResource)
+                    #AssociatedResource = ['title', 'UUID']
+                    writer.identificationInfo(title,self.Abstract, self.ProgressCode, reader.resolution, BBOX, timePeriod, reader.driver, Keywords, self.ClassificationCode, 'unclassified')
                     writer.distributionInfo('Offline File. Acessible at the given location', file_path) 
-                    writer.acquisitionInformation('dataset','undefined','undefined','undefined','undefined') 
                     
                     writer.write_to_file(filename, writer)
                     self.number += 1
@@ -164,11 +167,18 @@ class Crawler:
                     writer.referenceSystemInfo(reader.EPSG,'geodeticGeographic2D')
                     BBOX = reader.BBOX
                     Keywords = finalKeywords
+                    if len(Keywords) >= 3:
+                        title = Keywords[0]+'_'+Keywords[1]+'_'+Keywords[2]
+                    elif len(Keywords) == 2:
+                        title = Keywords[0]+'_'+Keywords[1]
+                    elif len(Keywords) == 1:
+                        title = Keywords[0]
+                    elif len(Keywords) == 0:
+                        title = 'undefined'
                     timePeriod = [filedate, filedate]
-                    AssociatedResource = ['title', 'UUID']
-                    writer.identificationInfo('test','Abstract', 'onGoing', 'undefined', BBOX, timePeriod, 'LAS File Format', Keywords, 'unclassified', 'unclassified', AssociatedResource)
+                    #AssociatedResource = ['title', 'UUID']
+                    writer.identificationInfo(title,self.Abstract, self.ProgressCode, None, BBOX, timePeriod, 'LAS File Format', Keywords, self.ClassificationCode, 'unclassified')
                     writer.distributionInfo('Offline File. Acessible at the given location', file_path)
-                    writer.acquisitionInformation('dataset','undefined','undefined','undefined','undefined')
                     
                     writer.write_to_file(filename, writer)
                     self.number += 1

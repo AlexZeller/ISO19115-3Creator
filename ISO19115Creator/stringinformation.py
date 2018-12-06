@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import dateutil.parser as dparser
 from datetime import datetime
 import re

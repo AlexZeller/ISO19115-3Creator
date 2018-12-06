@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import logging
 from sridentify import Sridentify
 from pyproj import Proj, transform

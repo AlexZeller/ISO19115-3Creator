@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+
 import logging
 import time
 from halo import Halo
-#from ISO19115Creator import xmlschematest
+from ISO19115Creator import xmlschematest
 
 #Get execution time
 start_time = time.time()
@@ -14,17 +16,18 @@ logger = logging.getLogger(__name__)
 from ISO19115Creator import metacrawler
 
 #Directory to be crawled
-rootDir = r'F:\20170328_Bernkastel'
+rootDir = r'G:\Test_Data\shp'
 
 #Default Information
 defaultLocale = 'en'
 resourceScope = 'dataset'
 roleCode = 'user'
 Organisation = 'University of Trier: Departement of Environmental Remote Sensing and Geoinformatics'
+Abstract = 'This file was automatically generated and has no Abstract'
 ProgressCode = 'onGoing'
 ClassificationCode = 'unclassified'
 
-defaultValues = [defaultLocale, resourceScope, roleCode, Organisation, ProgressCode, ClassificationCode]
+defaultValues = [defaultLocale, resourceScope, roleCode, Organisation, Abstract, ProgressCode, ClassificationCode]
 
 #Start spinner to indicate progress
 spinner = Halo(text='Crawling Directory '+rootDir, spinner='dots')
@@ -35,10 +38,10 @@ crawler = metacrawler.Crawler(rootDir, defaultValues)
 crawler.createMetadata()
 
 #Stop spinner
-spinner.succeed(text='Successful')
+spinner.succeed()
 print("\nExecution Time: %s seconds. \n%d xml files created" % ((time.time() - start_time), crawler.number))
 
-#xmlschematest.checkXML(r'F:\20170328_Bernkastel\RGB_thermal.xml')
+xmlschematest.checkXML(r'G:\Test_Data\shp\Kehlen_Nagem_2011.xml')
     
 
  
