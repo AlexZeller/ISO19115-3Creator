@@ -35,7 +35,7 @@ class GdalData:
             inputdata (string): The path of the file to be opened.   
         """
         
-        supportedRasterData = ['.tif', '.TIF']
+        supportedRasterData = ['.tif', '.TIF', '.img']
         supportedVectorData = ['.shp', '.SHP']
         
         self.fileextension = os.path.splitext(inputdata)[1]
@@ -77,7 +77,7 @@ class GdalData:
                 self.EPSG = functions.EPSGfromWKT(self.spatialRef)
                 #Get bounding box from vector
                 self.BBOX = [0,0,0,0]
-                self.BBOX[0], self.BBOX[1], self.BBOX[2], self.BBOX[3] = self.layer.GetExtent() 
+                self.BBOX[0], self.BBOX[2], self.BBOX[1], self.BBOX[3] = self.layer.GetExtent() 
                 if self.EPSG != '4326':
                     self.BBOX = functions.BBOXtoWGS84(self.BBOX, self.EPSG)
                 #Convert to string

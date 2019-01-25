@@ -51,7 +51,7 @@ def searchDate(string):
         
     
 
-def searchKeywords(string):
+def searchCatchwords(string):
     """ 
     Splits String (at '_', '-' and '.' and searches for non-digit strings that
     are longer than 2 characters.
@@ -61,11 +61,11 @@ def searchKeywords(string):
         string (string): The string to be searched.
     """
 
-    #Exceptions that should not be considered Keywords    
+    #Exceptions that should not be considered Catchwords    
     exceptions = ['tif', 'aux', 'ref', 'etrs']
     
     #Create empty list
-    Keywords = []
+    Catchwords = []
     
     #Split list at underscores
     split_list_underscore = string.split('_') 
@@ -79,12 +79,12 @@ def searchKeywords(string):
                 #Make all items lowercase to enable removing duplicates with list(set())
                 item = item.lower()
                 if not item in exceptions:   
-                    #Do not consider items with digits as keywords
+                    #Do not consider items with digits as Catchwords
                     if not item.isdigit():
                         if not len(item)<3:
-                            Keywords.append(item)
+                            Catchwords.append(item)
 
-    return Keywords 
+    return Catchwords 
     
     
 

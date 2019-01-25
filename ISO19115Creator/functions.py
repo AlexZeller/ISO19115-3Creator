@@ -3,6 +3,8 @@
 import logging
 from sridentify import Sridentify
 from pyproj import Proj, transform
+from owslib.csw import CatalogueServiceWeb
+import io
 
 #Set up logging
 log = logging.getLogger(__name__)
@@ -34,7 +36,8 @@ def BBOXtoWGS84(BBOX, inputProjectionEPSG):
         inputProjectionEPSG (string): The EPSG Code of the input BBOX.
     """
     try:
-        inProj = Proj(init='epsg:' + inputProjectionEPSG)
+        #inProj = Proj(init='epsg:' + inputProjectionEPSG)
+        inProj = Proj({'init': 'epsg:' + inputProjectionEPSG, 'no_defs': True}, preserve_flags=True)
         outProj = Proj(init='epsg:4326')
         #Careful with the order of the BBOX
         x = [BBOX[0], BBOX[2]]
@@ -46,3 +49,24 @@ def BBOXtoWGS84(BBOX, inputProjectionEPSG):
         raise
 
     return BBOX
+
+
+def CSWInsert(CSW_URL, username, password, XML):
+    """ 
+    Function to add a XML file to Geonetwork.
+    
+    Arguments: 
+        CSW_URL: The URL of the Geonetwork CSW publication server.
+        username: The username to authenticate with.
+        password: The password of the user.
+        XML: The path to the XML file.
+    """
+    try:
+        csw = CatalogueServiceWeb(CSW_URL, skip_caps=True, username=username, password=password)
+        csw.transaction(ttype='insert', typename='gmd:MD_Metadata', record=open(XML).read())
+        log.debug('Inserted XML file to Geonetwork')
+    except:
+        log.error('Failed to add XML to Geonetwork')
+        raise
+        
+    

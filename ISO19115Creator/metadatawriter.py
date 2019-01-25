@@ -29,14 +29,15 @@ mri = 'http://standards.iso.org/iso/19115/-3/mri/1.0'
 mrs = 'http://standards.iso.org/iso/19115/-3/mrs/1.0'
 cit = 'http://standards.iso.org/iso/19115/-3/cit/2.0'
 mac = 'http://standards.iso.org/iso/19115/-3/mac/2.0'
-mdb = 'http://standards.iso.org/iso/19115/-3/mdb/2.0'
+#mdb = 'http://standards.iso.org/iso/19115/-3/mdb/2.0'
+mdb = 'http://standards.iso.org/iso/19115/-3/mdb/1.0'
 mds = 'http://standards.iso.org/iso/19115/-3/mds/2.0'
 mdt = 'http://standards.iso.org/iso/19115/-3/mdt/2.0'
 mrl = 'http://standards.iso.org/iso/19115/-3/mrl/2.0'
 mrc = 'http://standards.iso.org/iso/19115/-3/mrc/2.0'
 msr = 'http://standards.iso.org/iso/19115/-3/msr/2.0'
 srv = 'http://standards.iso.org/iso/19115/-3/srv/2.0'
-schemaLocation = 'http://standards.iso.org/iso/19115/-3/mdb/2.0 http://standards.iso.org/iso/19115/-3/mdt/2.0/mdt.xsd'
+#schemaLocation = 'http://standards.iso.org/iso/19115/-3/mdb/2.0 http://standards.iso.org/iso/19115/-3/mdt/2.0/mdt.xsd'
 
 ET.register_namespace('xsi',xsi)
 ET.register_namespace('xlink',xlink)
@@ -82,7 +83,8 @@ class Metadata:
     '''Class to create ISO19115-3 Metadata Entries.'''
     
     def __init__(self):
-        self.root = ET.Element('{'+ mdb +'}MD_Metadata', attrib={"{" + xsi + "}schemaLocation" : schemaLocation})
+        #self.root = ET.Element('{'+ mdb +'}MD_Metadata', attrib={"{" + xsi + "}schemaLocation" : schemaLocation})
+        self.root = ET.Element('{'+ mdb +'}MD_Metadata')
           
     def prettify(self):
         '''Return a pretty-printed XML string for the Element.'''
