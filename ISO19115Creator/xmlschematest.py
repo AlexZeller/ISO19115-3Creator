@@ -1,15 +1,17 @@
+# -*- coding: utf-8 -*-
+
 from lxml import etree                                                         
 
 def checkXML(xml):  
     """ 
-    Function to chec a xml file for syntax errors and validate it against the ISO19115-3 schemas.
+    Function to check a xml file for syntax errors and validate it against the ISO19115-3 schemas.
+    The schemas are stored inthe standards.iso.org folder
     
     Arguments: 
         xml: The path of the xml file to be validated.
     """
                                                                           
-    xsd = r'.\ISO19115Creator\standards.iso.org\iso\19115\-3\mdt\2.0\mdt.xsd'
-    #xml = r'F:\20170328_Bernkastel\RGB_thermal.xml'                                                          
+    xsd = r'.\ISO19115Creator\standards.iso.org\iso\19115\-3\mdt\2.0\mdt.xsd'                                                        
                                                                                     
     #Open xsd file                                                                                                                                         
     with open(xsd) as f:                                                

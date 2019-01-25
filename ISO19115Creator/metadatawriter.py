@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 import logging
@@ -30,14 +29,15 @@ mri = 'http://standards.iso.org/iso/19115/-3/mri/1.0'
 mrs = 'http://standards.iso.org/iso/19115/-3/mrs/1.0'
 cit = 'http://standards.iso.org/iso/19115/-3/cit/2.0'
 mac = 'http://standards.iso.org/iso/19115/-3/mac/2.0'
-mdb = 'http://standards.iso.org/iso/19115/-3/mdb/2.0'
+#mdb = 'http://standards.iso.org/iso/19115/-3/mdb/2.0'
+mdb = 'http://standards.iso.org/iso/19115/-3/mdb/1.0'
 mds = 'http://standards.iso.org/iso/19115/-3/mds/2.0'
 mdt = 'http://standards.iso.org/iso/19115/-3/mdt/2.0'
 mrl = 'http://standards.iso.org/iso/19115/-3/mrl/2.0'
 mrc = 'http://standards.iso.org/iso/19115/-3/mrc/2.0'
 msr = 'http://standards.iso.org/iso/19115/-3/msr/2.0'
 srv = 'http://standards.iso.org/iso/19115/-3/srv/2.0'
-schemaLocation = 'http://standards.iso.org/iso/19115/-3/mdb/2.0 http://standards.iso.org/iso/19115/-3/mdt/2.0/mdt.xsd'
+#schemaLocation = 'http://standards.iso.org/iso/19115/-3/mdb/2.0 http://standards.iso.org/iso/19115/-3/mdt/2.0/mdt.xsd'
 
 ET.register_namespace('xsi',xsi)
 ET.register_namespace('xlink',xlink)
@@ -83,7 +83,8 @@ class Metadata:
     '''Class to create ISO19115-3 Metadata Entries.'''
     
     def __init__(self):
-        self.root = ET.Element('{'+ mdb +'}MD_Metadata', attrib={"{" + xsi + "}schemaLocation" : schemaLocation})
+        #self.root = ET.Element('{'+ mdb +'}MD_Metadata', attrib={"{" + xsi + "}schemaLocation" : schemaLocation})
+        self.root = ET.Element('{'+ mdb +'}MD_Metadata')
           
     def prettify(self):
         '''Return a pretty-printed XML string for the Element.'''
@@ -155,7 +156,7 @@ class Metadata:
         i = ET.SubElement(b, '{'+ mrs +'}referenceSystemType')
         ET.SubElement(i, '{'+ mrs +'}MD_ReferenceSystemTypeCode', codeList=codelist_MD_ReferenceSystemTypeCode, codeListValue=ReferenceSystemTypeCode)
 
-    def identificationInfo(self, DatasetTitle, Abstract, ProgressCode, spatialResolution, BBOX, timePeriod, Formattitle, Keywords, ClassificationCode, useLimitation, AssociatedResource):
+    def identificationInfo(self, DatasetTitle, Abstract, ProgressCode, spatialResolution, BBOX, timePeriod, Formattitle, Keywords, ClassificationCode, useLimitation):
         a = ET.SubElement(self.root, '{'+ mdb +'}identificationInfo')
         b = ET.SubElement(a, '{'+ mri +'}MD_DataIdentification')
         
@@ -172,11 +173,12 @@ class Metadata:
         m = ET.SubElement(b, '{'+ mri +'}status')
         ET.SubElement(m, '{'+ mcc +'}MD_ProgressCode', codeList=codelist_MD_ProgressCode, codeListValue=ProgressCode)
 
-        ar = ET.SubElement(b, '{'+ mri +'}spatialResolution')
-        at = ET.SubElement(ar, '{'+ mri +'}MD_Resolution')
-        au = ET.SubElement(at, '{'+ mri +'}distance')
-        av = ET.SubElement(au, '{'+ gco +'}Distance', uom="meter")
-        av.text = str(spatialResolution)
+        if spatialResolution:
+            ar = ET.SubElement(b, '{'+ mri +'}spatialResolution')
+            at = ET.SubElement(ar, '{'+ mri +'}MD_Resolution')
+            au = ET.SubElement(at, '{'+ mri +'}distance')
+            av = ET.SubElement(au, '{'+ gco +'}Distance', uom="meter")
+            av.text = str(spatialResolution)
 
         n = ET.SubElement(b, '{'+ mri +'}extent')
         o = ET.SubElement(n, '{'+ gex +'}EX_Extent')
@@ -232,22 +234,20 @@ class Metadata:
         bf = ET.SubElement(be, '{'+ gco +'}CharacterString')
         bf.text = useLimitation        
 
-        bg = ET.SubElement(b, '{'+ mri +'}associatedResource')
-        bh = ET.SubElement(bg, '{'+ mri +'}MD_AssociatedResource')
-        bi = ET.SubElement(bh, '{'+ mri +'}associationType') 
-        ET.SubElement(bi, '{'+ mri +'}DS_AssociationTypeCode', codeList=codelist_DS_AssociationTypeCode, codeListValue='largerWorkCitation')    
-        bk = ET.SubElement(bh, '{'+ mri +'}metadataReference')
-        bl = ET.SubElement(bk, '{'+ cit +'}CI_Citation')
-        bm = ET.SubElement(bl, '{'+ cit +'}title')
-        bn = ET.SubElement(bm, '{'+ gco +'}CharacterString')
-        bn.text = AssociatedResource[0]
-        bo = ET.SubElement(bl, '{'+ cit +'}identifier')
-        bp = ET.SubElement(bo, '{'+ mcc +'}MD_Identifier')
-        bq = ET.SubElement(bp, '{'+ mcc +'}code')
-        br = ET.SubElement(bq, '{'+ gco +'}CharacterString')
-        br.text = AssociatedResource[1]
-        
-        
+#        bg = ET.SubElement(b, '{'+ mri +'}associatedResource')
+#        bh = ET.SubElement(bg, '{'+ mri +'}MD_AssociatedResource')
+#        bi = ET.SubElement(bh, '{'+ mri +'}associationType') 
+#        ET.SubElement(bi, '{'+ mri +'}DS_AssociationTypeCode', codeList=codelist_DS_AssociationTypeCode, codeListValue='largerWorkCitation')    
+#        bk = ET.SubElement(bh, '{'+ mri +'}metadataReference')
+#        bl = ET.SubElement(bk, '{'+ cit +'}CI_Citation')
+#        bm = ET.SubElement(bl, '{'+ cit +'}title')
+#        bn = ET.SubElement(bm, '{'+ gco +'}CharacterString')
+#        bn.text = AssociatedResource[0]
+#        bo = ET.SubElement(bl, '{'+ cit +'}identifier')
+#        bp = ET.SubElement(bo, '{'+ mcc +'}MD_Identifier')
+#        bq = ET.SubElement(bp, '{'+ mcc +'}code')
+#        br = ET.SubElement(bq, '{'+ gco +'}CharacterString')
+#        br.text = AssociatedResource[1] 
 
     def distributionInfo(self, Description, MediumName):
         a = ET.SubElement(self.root, '{'+ mdb +'}distributionInfo')
@@ -269,7 +269,8 @@ class Metadata:
         
     def acquisitionInformation(self, ScopeCode, PlatformCode, PlatformDescription, InstrumentCode, InstrumentDescription):
         a = ET.SubElement(self.root, '{'+ mdb +'}acquisitionInformation')
-        b = ET.SubElement(a, '{'+ mac +'}MI_AcquisitionInformation')      
+        b = ET.SubElement(a, '{'+ mac +'}MI_AcquisitionInformation') 
+        
         c = ET.SubElement(b, '{'+ mac +'}scope')
         t = ET.SubElement(c, '{'+ mcc +'}MD_Scope')
         u = ET.SubElement(t, '{'+ mcc +'}level')
@@ -277,7 +278,9 @@ class Metadata:
 
         d = ET.SubElement(b, '{'+ mac +'}platform')
         e = ET.SubElement(d, '{'+ mac +'}MI_Platform')
+        
         f = ET.SubElement(e, '{'+ mac +'}identifier')
+        
         g = ET.SubElement(f, '{'+ mcc +'}MD_Identifier')
         h = ET.SubElement(g, '{'+ mcc +'}code')
         i = ET.SubElement(h, '{'+ gco +'}CharacterString')
